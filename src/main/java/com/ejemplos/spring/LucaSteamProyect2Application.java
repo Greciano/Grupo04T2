@@ -8,6 +8,8 @@ public class LucaSteamProyect2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LucaSteamProyect2Application.class, args);
+		//Prueba 1 
+		System.out.println("Hola");
 	}
 
 }
