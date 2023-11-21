@@ -6,7 +6,7 @@ public class Juego {
 	private String editor; // Nombre del editor del juego
 	private Plataforma plataforma; // Plataforma en la que se juega
 	private Genero genero; // Género al que pertenece el juego
-	private int euSales;
+	private double euSales;
 
 	/**
 	 * Constructor vacío para un juego.
@@ -24,13 +24,14 @@ public class Juego {
 	 * @param plataforma La plataforma en la que se juega.
 	 * @param genero     El género al que pertenece el juego.
 	 */
-	public Juego(String nombre, int fecha, String editor, Plataforma plataforma, Genero genero, int euSales) {
+	public Juego(String nombre, int fecha, String editor, Plataforma plataforma, Genero genero, double euSales) {
 		super();
 		this.nombre = nombre;
 		this.fecha = fecha;
 		this.editor = editor;
 		this.plataforma = plataforma;
 		this.genero = genero;
+		this.euSales = euSales;
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class Juego {
 	 *
 	 * @return Las ventas que tiene el juego en europa.
 	 */
-	public int getEuSales() {
+	public double getEuSales() {
 		return euSales;
 	}
 
@@ -137,7 +138,7 @@ public class Juego {
 	 *
 	 * @param euSales ventas que tiene el juego en europa.
 	 */
-	public void setEuSales(int euSales) {
+	public void setEuSales(double euSales) {
 		this.euSales = euSales;
 	}
 
@@ -146,10 +147,11 @@ public class Juego {
 	 *
 	 * @return Una cadena que representa un juego con sus atributos.
 	 */
+
 	@Override
 	public String toString() {
 		return "Juego [nombre=" + nombre + ", fecha=" + fecha + ", editor=" + editor + ", plataforma=" + plataforma
-				+ ", genero=" + genero + "]";
+				+ ", genero=" + genero + ", euSales=" + euSales + "]";
 	}
 
 }

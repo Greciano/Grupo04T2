@@ -1,15 +1,19 @@
 package com.ejemplos.spring;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.ejemplos.spring.controller.JuegosController;
+import com.ejemplos.spring.repository.JuegoRepositoryImpl;
 
 @SpringBootApplication
 public class LucaSteamProyect2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LucaSteamProyect2Application.class, args);
-		//Prueba 1 
-		System.out.println("Hola");
+		JuegosController datos = new JuegosController();
+		datos.getJuegos();
 	}
 
 }
