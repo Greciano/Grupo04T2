@@ -6,25 +6,30 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ejemplos.spring.model.Genero;
 import com.ejemplos.spring.model.Juego;
+import com.ejemplos.spring.model.JuegoDTO;
 import com.ejemplos.spring.model.Plataforma;
 
 @Repository
 public class JuegoRepositoryImpl implements JuegoRepository {
 
-	private BufferedReader lector;
-	private String linea;
-	private String partes[] = null;
-	private int numeroEnumeracion = 1;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	private List<Juego> listaJuegos = new ArrayList<>();
 
 	@Override
-	public List<Juego> getJuego() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<JuegoDTO> getJuego() {
+		String sql = "SELECT * FROM juegos";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(JuegoDTO.class));
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 	public static void leerYAlmacenarDatos(String file, List<Juego> listajuegos) {
 		List<String[]> dataList = new ArrayList<>();
 		boolean isFirstLine = true;
-		int rowsToRead = 16600;
+		int rowsToRead = 200;
 
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			String line;
@@ -87,8 +92,8 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 			Juego juego = new Juego(nombre, fecha, editor, plataforma, genero, euSalesDouble);
 			listajuegos.add(juego);
 
-			String rutaArchivo = "src/main/resources/archivo.sql";
-			generarScript(listajuegos, rutaArchivo);
+			//String rutaArchivo = "src/main/resources/archivo.sql";
+			//generarScript(listajuegos, rutaArchivo);
 		}
 	}
 
@@ -101,7 +106,7 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 			if (c == '"') {
 				inQuotes = !inQuotes;
 			} else if (c == ',' && !inQuotes) {
-				columns.add(currentColumn.toString().trim());
+				columns.add(escapeSingleQuotes(currentColumn.toString().trim()));
 				currentColumn.setLength(0);
 			} else {
 				currentColumn.append(c);
@@ -109,9 +114,14 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 		}
 
 		// Agregar la última columna
-		columns.add(currentColumn.toString().trim());
+		columns.add(escapeSingleQuotes(currentColumn.toString().trim()));
 
 		return columns.toArray(new String[0]);
+	}
+
+	// Nuevo método para escapar comillas simples
+	private static String escapeSingleQuotes(String input) {
+		return input.replace("'", "''");
 	}
 
 	public static void generarScript(List<Juego> juegos, String rutaArchivo) {
@@ -129,8 +139,7 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 	}
 
 	private static String generarInsertStatement(Juego juego) {
-
-		String insertStatement = String.format(
+		String insertStatement = String.format(Locale.US,
 				"INSERT INTO juegos (nombre, fecha, editor, plataforma, genero, eu_sales) "
 						+ "VALUES ('%s', %d, '%s', '%s', '%s', %.2f)",
 				juego.getNombre(), juego.getFecha(), juego.getEditor(), juego.getPlataforma().getValor(),
