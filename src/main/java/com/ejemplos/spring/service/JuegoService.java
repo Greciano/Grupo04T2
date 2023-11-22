@@ -11,5 +11,6 @@ public interface JuegoService {
 	
 	public void addJuego(Juego juego);
 	
-	public void  deleteJuego(int id);
+	public JuegoDTO deleteJuego(int id);
+	
 }

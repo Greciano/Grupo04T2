@@ -1,6 +1,7 @@
 package com.ejemplos.spring.model;
 
 public class JuegoDTO {
+	private int id;
 	private String nombre;
 	private int fecha;
 	private String editor;
@@ -11,7 +12,8 @@ public class JuegoDTO {
 	public JuegoDTO() {
 	}
 
-	public JuegoDTO(String nombre, int fecha, String editor, String plataforma, String genero, double euSales) {
+	public JuegoDTO(int id, String nombre, int fecha, String editor, String plataforma, String genero, double euSales) {
+		this.id = id;
 		this.nombre = nombre;
 		this.fecha = fecha;
 		this.editor = editor;
@@ -67,4 +69,19 @@ public class JuegoDTO {
 	public void setEuSales(double euSales) {
 		this.euSales = euSales;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "JuegoDTO [id=" + id + ", nombre=" + nombre + ", fecha=" + fecha + ", editor=" + editor + ", plataforma="
+				+ plataforma + ", genero=" + genero + ", euSales=" + euSales + "]";
+	}
+
 }
