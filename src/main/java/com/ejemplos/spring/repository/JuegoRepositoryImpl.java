@@ -35,7 +35,12 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 
 	@Override
 	public void addJuego(Juego juego) {
-		// TODO Auto-generated method stub
+		listaJuegos.add(juego);
+		String sql = "INSERT INTO juegos (nombre, fecha, editor, plataforma, genero, eu_sales) VALUES " + "('"
+				+ juego.getNombre() + "', " + juego.getFecha() + ", '" + juego.getEditor() + "', '"
+				+ juego.getPlataforma().toString().toUpperCase() + "', '" + juego.getGenero() + "', "
+				+ juego.getEuSales() + ")";
+		jdbcTemplate.update(sql);
 
 	}
 
