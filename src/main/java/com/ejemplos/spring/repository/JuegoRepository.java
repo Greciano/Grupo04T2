@@ -8,9 +8,10 @@ import com.ejemplos.spring.model.JuegoDTO;
 public interface JuegoRepository {
 
 	
-	public List<JuegoDTO> getJuego();
+	public List<JuegoDTO>getJuego();
 	
 	public void addJuego(Juego juego);
 	
-	public void  deleteJuego(int id);
+	public void deleteJuego(int id);
+
 }

@@ -34,15 +34,20 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 
 	@Override
 	public void addJuego(Juego juego) {
-		// TODO Auto-generated method stub
-
+	    String sql = "INSERT INTO juegos (nombre, fecha, editor, plataforma, genero, eu_sales) "
+	            + "VALUES (?, ?, ?, ?, ?, ?)";
+	    jdbcTemplate.update(sql,
+	            juego.getNombre(), juego.getFecha(), juego.getEditor(),
+	            juego.getPlataforma().getValor(), juego.getGenero().getValor(),
+	            juego.getEuSales());
 	}
 
 	@Override
 	public void deleteJuego(int id) {
-		// TODO Auto-generated method stub
-
+	    String sql = "DELETE FROM juegos WHERE id = ?";
+	    jdbcTemplate.update(sql, id);
 	}
+
 
 	public JuegoRepositoryImpl() {
 		leerYAlmacenarDatos("src/main/resources/vgsales.csv", listaJuegos);
