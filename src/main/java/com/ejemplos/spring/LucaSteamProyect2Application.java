@@ -14,7 +14,6 @@ public class LucaSteamProyect2Application {
 		SpringApplication.run(LucaSteamProyect2Application.class, args);
 		JuegosController datos = new JuegosController();
 		datos.getJuegos();
-		System.out.println("Hola");
 	}
 
 }
