@@ -12,5 +12,5 @@ public interface JuegoRepository {
 	
 	public void addJuego(Juego juego);
 	
-	public void  deleteJuego(int id);
+	public JuegoDTO  deleteJuego(int id);
 }

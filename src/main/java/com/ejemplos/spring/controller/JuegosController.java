@@ -11,7 +11,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,24 +22,32 @@ import com.ejemplos.spring.model.Juego;
 import com.ejemplos.spring.model.JuegoDTO;
 import com.ejemplos.spring.model.Plataforma;
 import com.ejemplos.spring.service.JuegoService;
+
 @RestController
 @RequestMapping("/juegos")
 public class JuegosController {
-	
+
 	@Autowired
-    private JuegoService juegoService;
-	
+	private JuegoService juegoService;
+
 	@GetMapping
-    public ResponseEntity<List<JuegoDTO>> getAllUsers() {
-        List<JuegoDTO> juegos = juegoService.getJuego();
-        if (juegos.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(juegos, HttpStatus.OK);
-    }
+	public ResponseEntity<List<JuegoDTO>> getJuegos() {
+		List<JuegoDTO> juegos = juegoService.getJuego();
+		if (juegos.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(juegos, HttpStatus.OK);
+	}
 
-	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<JuegoDTO> deleteJuego(@PathVariable int id) {
+		JuegoDTO juegoEliminado = juegoService.deleteJuego(id);
 
-	
+		if (juegoEliminado != null) {
+			return ResponseEntity.ok(juegoEliminado);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 
 }

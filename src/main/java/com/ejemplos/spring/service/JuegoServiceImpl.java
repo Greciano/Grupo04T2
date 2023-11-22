@@ -9,13 +9,13 @@ import com.ejemplos.spring.repository.JuegoRepository;
 import com.ejemplos.spring.repository.JuegoRepositoryImpl;
 
 @Service
-public class JuegoServiceImpl implements JuegoService{
+public class JuegoServiceImpl implements JuegoService {
 
 	@Autowired
 	private JuegoRepository repo;
-	
+
 	JuegoRepository datos = new JuegoRepositoryImpl();
-	
+
 	@Override
 	public List<JuegoDTO> getJuego() {
 		return repo.getJuego();
@@ -27,7 +27,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public void deleteJuego(int id) {
-		repo.deleteJuego(id);
+	public JuegoDTO deleteJuego(int id) {
+		return repo.deleteJuego(id);
 	}
 }

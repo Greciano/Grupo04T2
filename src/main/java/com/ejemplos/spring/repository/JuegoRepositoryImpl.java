@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -39,9 +40,27 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 	}
 
 	@Override
-	public void deleteJuego(int id) {
-		// TODO Auto-generated method stub
+	public JuegoDTO deleteJuego(int id) {
+		String selectSql = "SELECT * FROM juegos WHERE id = ? ";
+		try {
+			JuegoDTO juegoEliminado = jdbcTemplate.queryForObject(selectSql,
+					new BeanPropertyRowMapper<>(JuegoDTO.class), id);
 
+			String deleteSql = "DELETE FROM juegos WHERE id = ?";
+			int filasAfectadas = jdbcTemplate.update(deleteSql, id);
+
+			// Verifica que la eliminación en la base de datos fue exitosa
+			if (filasAfectadas > 0) {
+				// Devuelve el juego eliminado
+				return juegoEliminado;
+			}
+		} catch (EmptyResultDataAccessException e) {
+			// Manejar la excepción si no se encuentra ningún juego con el ID proporcionado
+			return null;
+		}
+
+		// Si la eliminación en la base de datos no fue exitosa, devuelve null
+		return null;
 	}
 
 	public JuegoRepositoryImpl() {
@@ -92,8 +111,8 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 			Juego juego = new Juego(nombre, fecha, editor, plataforma, genero, euSalesDouble);
 			listajuegos.add(juego);
 
-			//String rutaArchivo = "src/main/resources/archivo.sql";
-			//generarScript(listajuegos, rutaArchivo);
+			// String rutaArchivo = "src/main/resources/archivo.sql";
+			// generarScript(listajuegos, rutaArchivo);
 		}
 	}
 
