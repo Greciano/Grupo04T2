@@ -45,6 +45,25 @@ public class JuegosController {
 		}
 		return new ResponseEntity<>(juegos, HttpStatus.OK);
 	}
+	
+	@GetMapping("/nintendo")
+	@Operation(summary = "Obtener todos los juegos de Nintendo", description = "Devuelve una lista de todos los juegos en la base de datos que sean editados por Nintendo.")
+	@ApiResponses(value = {
+	        @ApiResponse(responseCode = "200", description = "Lista de juegos de Nintendo recuperada con éxito"),
+	        @ApiResponse(responseCode = "204", description = "No hay juegos de Nintendo en la base de datos")
+	})
+	public ResponseEntity<List<JuegoDTO>> getNintendo() {
+	    List<JuegoDTO> juegosNintendo = juegoService.getNintendo();
+
+	    if (juegosNintendo.isEmpty()) {
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    }
+
+	    return new ResponseEntity<>(juegosNintendo, HttpStatus.OK);
+	}
+
+	
+	
 
 	@DeleteMapping("/{id}")
 	@Operation(summary = "Eliminar un juego por ID", description = "Elimina un juego de la base de datos por su ID")

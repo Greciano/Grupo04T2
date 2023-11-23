@@ -30,4 +30,12 @@ public class JuegoServiceImpl implements JuegoService {
 	public JuegoDTO deleteJuego(int id) {
 		return repo.deleteJuego(id);
 	}
+
+	@Override
+	public List<JuegoDTO> getNintendo() {
+		// TODO Auto-generated method stub
+		return repo.getNintendo();
+	}
+
+
 }
