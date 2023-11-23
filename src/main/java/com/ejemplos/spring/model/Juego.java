@@ -1,11 +1,26 @@
 package com.ejemplos.spring.model;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Schema(name = "Juego", description = "Detalles de un juego")
 public class Juego {
-	private String nombre; // Nombre del juego
+	@Schema(description = "Nombre del juego", example = "Super Mario Bros.")
+	private String nombre;
+	@Schema(description = "Año de lanzamiento del juego", example = "1985")
 	private int fecha; // Año de lanzamiento del juego
+	@Schema(description = "Nombre del editor del juego", example = "Nintendo")
 	private String editor; // Nombre del editor del juego
+	@Schema(description = "Plataforma en la que se juega", example = "NES")
 	private Plataforma plataforma; // Plataforma en la que se juega
+	@Schema(description = "Género al que pertenece el juego", example = "Plataformas")
 	private Genero genero; // Género al que pertenece el juego
+	@Schema(description = "Ventas en Europa del juego", example = "10.5")
 	private double euSales;
 
 	/**
