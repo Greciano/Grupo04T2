@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
+
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -88,7 +89,18 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		return new ResponseEntity<Object>(body, new HttpHeaders(), HttpStatus.METHOD_NOT_ALLOWED);
 
 	}
-	
-	 
+
+	@ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<CustomErrorJson> handleException(Exception ex, WebRequest request) {
+        CustomErrorJson customError = new CustomErrorJson();
+        customError.setTimestamp(new Date());
+        customError.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        customError.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+        customError.setMessage("Error interno del servidor. Consulte los registros para obtener más detalles.");
+        customError.setPath(request.getDescription(false));
+
+        return new ResponseEntity<>(customError, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
