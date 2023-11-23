@@ -13,4 +13,6 @@ public interface JuegoRepository {
 	public void addJuego(Juego juego);
 	
 	public JuegoDTO  deleteJuego(int id);
+
+	public List<JuegoDTO> getNintendo();
 }

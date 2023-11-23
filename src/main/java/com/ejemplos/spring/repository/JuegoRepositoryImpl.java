@@ -33,6 +33,15 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(JuegoDTO.class));
 	}
 
+	
+	@Override
+	public List<JuegoDTO> getNintendo() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM juegos WHERE editor = 'Nintendo'";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(JuegoDTO.class));
+	}
+	
+	
 	@Override
 	public void addJuego(Juego juego) {
 		listaJuegos.add(juego);
@@ -173,12 +182,19 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 	}
 
 	public void getJuegos() {
-		StringBuilder sb = new StringBuilder();
-		for (Juego e : listaJuegos) {
-			sb.append(e.toString() + "\n");
-		}
-		System.out.println(sb.toString());
-
+	    // Se crea un StringBuilder para construir una cadena de texto
+	    StringBuilder sb = new StringBuilder();
+	    
+	    // Se itera sobre la lista de juegos
+	    for (Juego e : listaJuegos) {
+	        // Se agrega la representación de cadena del objeto Juego seguido de un salto de línea
+	        sb.append(e.toString()).append("\n");
+	    }
+	    
+	    // Se imprime la cadena resultante en la consola
+	    System.out.println(sb.toString());
 	}
+
+	
 
 }
