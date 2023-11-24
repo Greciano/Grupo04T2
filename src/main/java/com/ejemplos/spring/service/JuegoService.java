@@ -13,4 +13,8 @@ public interface JuegoService {
 	
 	public JuegoDTO deleteJuego(int id);
 	
+	public JuegoDTO updateJuego(int id, JuegoDTO juego);
+	
+	public JuegoDTO obtenerJuegoPorId(int id);
+	
 }

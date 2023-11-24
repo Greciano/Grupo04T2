@@ -13,4 +13,8 @@ public interface JuegoRepository {
 	public void addJuego(Juego juego);
 	
 	public JuegoDTO  deleteJuego(int id);
+	
+	public JuegoDTO updateJuego(int id, JuegoDTO juego);
+	
+	public JuegoDTO obtenerJuegoPorId(int id);
 }

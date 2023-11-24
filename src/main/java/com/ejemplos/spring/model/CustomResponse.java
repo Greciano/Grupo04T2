@@ -56,5 +56,9 @@ public class CustomResponse<T> {
 	public static <T> CustomResponse<T> createNotFoundResponse(String message) {
 		return new CustomResponse<>(404, message, null);
 	}
+	
+	public static <T> CustomResponse<T> createInternalServerErrorResponse(String message) {
+        return new CustomResponse<>(500, message, null);
+    }
 
 }

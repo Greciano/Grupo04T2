@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,13 +75,42 @@ public class JuegosController {
 	@Operation(summary = "Agregar un nuevo juego", description = "Agrega un nuevo juego a la base de datos")
 	@ApiResponses(value = { @ApiResponse(responseCode = "204", description = "Juego agregado con éxito") })
 	public ResponseEntity<CustomResponse<String>> addJuego(
-	        @Parameter(description = "Datos del juego a agregar", required = true) @RequestBody Juego juego) {
-	    logger.info("------ addJuego (POST)");
-	    juegoService.addJuego(juego);
-	    String mensaje = "Juego agregado con éxito: " + juego.getNombre();
-	    return ResponseEntity.status(HttpStatus.CREATED)
-	            .body(new CustomResponse<>(201, mensaje, null));
+			@Parameter(description = "Datos del juego a agregar", required = true) @RequestBody Juego juego) {
+		logger.info("------ addJuego (POST)");
+		juegoService.addJuego(juego);
+		String mensaje = "Juego agregado con éxito: " + juego.getNombre();
+		return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse<>(201, mensaje, null));
 	}
 
-	// Agregar otros métodos, como el de carga inicial, según sea necesario.
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateJuego(
+	        @Parameter(description = "ID del juego a actualizar", required = true) @PathVariable int id,
+	        @RequestBody JuegoDTO juego) {
+	    try {
+	        JuegoDTO juegoExistente = juegoService.obtenerJuegoPorId(id);
+
+	        if (juegoExistente != null) {
+	            JuegoDTO juegoActualizado = juegoService.updateJuego(id, juego);
+
+	            if (juegoActualizado != null) {
+	                CustomResponse<JuegoDTO> customResponse = CustomResponse.createSuccessResponse(juegoActualizado);
+	                return ResponseEntity.ok(customResponse);
+	            } else {
+	                CustomResponse<Void> customResponse = CustomResponse
+	                        .createNotFoundResponse("No se encontró ningún juego con el ID proporcionado");
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse);
+	            }
+	        } else {
+	            CustomResponse<Void> customResponse = CustomResponse
+	                    .createNotFoundResponse("No se encontró ningún juego con el ID proporcionado");
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse);
+	        }
+	    } catch (Exception e) {
+	        CustomResponse<Void> customResponse = CustomResponse.createInternalServerErrorResponse("Error interno del servidor");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(customResponse);
+	    }
+	}
+
 }
+
+// Agregar otros métodos, como el de carga inicial, según sea necesario.

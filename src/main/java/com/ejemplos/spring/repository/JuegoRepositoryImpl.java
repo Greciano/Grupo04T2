@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.swing.tree.RowMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -45,6 +47,29 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 	}
 
 	@Override
+	public JuegoDTO updateJuego(int id, JuegoDTO juego) {
+		String sql = "UPDATE juegos SET nombre=?, fecha=?, editor=?, plataforma=?, genero=?, eu_sales=? WHERE id= ? ";
+		int filasActualizadas = jdbcTemplate.update(sql, new Object[] { juego.getNombre(), juego.getFecha(),
+				juego.getEditor(), juego.getPlataforma(), juego.getGenero(), juego.getEuSales(), id });
+
+		if (filasActualizadas > 0) {
+			return obtenerJuegoPorId(id);
+		} else {
+			return null;
+		}
+	}
+
+	public JuegoDTO obtenerJuegoPorId(int id) {
+		String sql = "SELECT * FROM juegos WHERE id = ?";
+
+		try {
+			return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(JuegoDTO.class), id);
+		} catch (EmptyResultDataAccessException e) {
+			return null; 
+		}
+	}
+
+	@Override
 	public JuegoDTO deleteJuego(int id) {
 		String selectSql = "SELECT * FROM juegos WHERE id = ? ";
 		try {
@@ -64,7 +89,6 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 			return null;
 		}
 
-		// Si la eliminación en la base de datos no fue exitosa, devuelve null
 		return null;
 	}
 

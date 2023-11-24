@@ -89,7 +89,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		return new ResponseEntity<Object>(body, new HttpHeaders(), HttpStatus.METHOD_NOT_ALLOWED);
 
 	}
-
+/*
 	@ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<CustomErrorJson> handleException(Exception ex, WebRequest request) {
@@ -102,5 +102,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
         return new ResponseEntity<>(customError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    */
 
 }
