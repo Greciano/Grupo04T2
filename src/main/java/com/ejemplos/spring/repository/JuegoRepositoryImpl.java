@@ -31,21 +31,29 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 		String sql = "SELECT * FROM juegos";
 		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(JuegoDTO.class));
 	}
-
-	@Override
-	public void addJuego(Juego juego) {
-	    String sql = "INSERT INTO juegos (nombre, fecha, editor, plataforma, genero, eu_sales) "
-	            + "VALUES (?, ?, ?, ?, ?, ?)";
-	    jdbcTemplate.update(sql,
-	            juego.getNombre(), juego.getFecha(), juego.getEditor(),
-	            juego.getPlataforma().getValor(), juego.getGenero().getValor(),
-	            juego.getEuSales());
-	}
-
 	@Override
 	public void deleteJuego(int id) {
 	    String sql = "DELETE FROM juegos WHERE id = ?";
 	    jdbcTemplate.update(sql, id);
+	}
+	
+	@Override
+    public void addJuego(Juego juego) {
+        listaJuegos.add(juego);
+        String sql = "INSERT INTO juegos (nombre, fecha, editor, plataforma, genero, eu_sales) VALUES " + "('"
+                + juego.getNombre() + "', " + juego.getFecha() + ", '" + juego.getEditor() + "', '"
+                + juego.getPlataforma().toString().toUpperCase() + "', '" + juego.getGenero() + "', "
+                + juego.getEuSales() + ")";
+        jdbcTemplate.update(sql);
+
+    }
+	@Override
+	public void updateJuego(JuegoDTO juego) {
+	    String sql = "UPDATE juegos SET nombre = ?, fecha = ?, editor = ?, plataforma = ?, genero = ?, eu_sales = ? WHERE id = ?";
+	    
+	    jdbcTemplate.update(sql,
+	            juego.getNombre(), juego.getFecha(), juego.getEditor(),
+	            juego.getPlataforma().toString().toUpperCase(), juego.getGenero(), juego.getEuSales(), juego.getId());
 	}
 
 

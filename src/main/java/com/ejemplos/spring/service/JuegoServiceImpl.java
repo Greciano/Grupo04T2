@@ -30,4 +30,9 @@ public class JuegoServiceImpl implements JuegoService{
 	public void deleteJuego(int id) {
 		repo.deleteJuego(id);
 	}
+
+	@Override
+	public void updateJuego(JuegoDTO juego) {
+		repo.updateJuego(juego);
+	}
 }

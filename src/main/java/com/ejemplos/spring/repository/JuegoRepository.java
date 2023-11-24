@@ -14,4 +14,6 @@ public interface JuegoRepository {
 	
 	public void deleteJuego(int id);
 
+	void updateJuego(JuegoDTO juego);
+
 }
