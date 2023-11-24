@@ -84,31 +84,47 @@ public class JuegosController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateJuego(
-	        @Parameter(description = "ID del juego a actualizar", required = true) @PathVariable int id,
-	        @RequestBody JuegoDTO juego) {
-	    try {
-	        JuegoDTO juegoExistente = juegoService.obtenerJuegoPorId(id);
+			@Parameter(description = "ID del juego a actualizar", required = true) @PathVariable int id,
+			@RequestBody JuegoDTO juego) {
+		try {
+			JuegoDTO juegoExistente = juegoService.obtenerJuegoPorId(id);
 
-	        if (juegoExistente != null) {
-	            JuegoDTO juegoActualizado = juegoService.updateJuego(id, juego);
+			if (juegoExistente != null) {
+				JuegoDTO juegoActualizado = juegoService.updateJuego(id, juego);
 
-	            if (juegoActualizado != null) {
-	                CustomResponse<JuegoDTO> customResponse = CustomResponse.createSuccessResponse(juegoActualizado);
-	                return ResponseEntity.ok(customResponse);
-	            } else {
-	                CustomResponse<Void> customResponse = CustomResponse
-	                        .createNotFoundResponse("No se encontró ningún juego con el ID proporcionado");
-	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse);
-	            }
-	        } else {
-	            CustomResponse<Void> customResponse = CustomResponse
-	                    .createNotFoundResponse("No se encontró ningún juego con el ID proporcionado");
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse);
-	        }
-	    } catch (Exception e) {
-	        CustomResponse<Void> customResponse = CustomResponse.createInternalServerErrorResponse("Error interno del servidor");
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(customResponse);
-	    }
+				if (juegoActualizado != null) {
+					CustomResponse<JuegoDTO> customResponse = CustomResponse.createSuccessResponse(juegoActualizado);
+					return ResponseEntity.ok(customResponse);
+				} else {
+					CustomResponse<Void> customResponse = CustomResponse
+							.createNotFoundResponse("No se encontró ningún juego con el ID proporcionado");
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse);
+				}
+			} else {
+				CustomResponse<Void> customResponse = CustomResponse
+						.createNotFoundResponse("No se encontró ningún juego con el ID proporcionado");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse);
+			}
+		} catch (Exception e) {
+			CustomResponse<Void> customResponse = CustomResponse
+					.createInternalServerErrorResponse("Error interno del servidor");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(customResponse);
+		}
+	}
+
+	@GetMapping("/nintendo")
+	@Operation(summary = "Obtener todos los juegos de Nintendo", description = "Devuelve una lista de todos los juegos en la base de datos que sean editados por Nintendo.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Lista de juegos de Nintendo recuperada con éxito"),
+			@ApiResponse(responseCode = "204", description = "No hay juegos de Nintendo en la base de datos") })
+	public ResponseEntity<List<JuegoDTO>> getNintendo() {
+		List<JuegoDTO> juegosNintendo = juegoService.getNintendo();
+
+		if (juegosNintendo.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+
+		return new ResponseEntity<>(juegosNintendo, HttpStatus.OK);
 	}
 
 }

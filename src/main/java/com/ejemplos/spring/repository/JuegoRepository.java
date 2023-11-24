@@ -17,4 +17,6 @@ public interface JuegoRepository {
 	public JuegoDTO updateJuego(int id, JuegoDTO juego);
 	
 	public JuegoDTO obtenerJuegoPorId(int id);
+	
+	public List<JuegoDTO> getNintendo();
 }

@@ -33,14 +33,19 @@ public class JuegoServiceImpl implements JuegoService {
 
 	@Override
 	public JuegoDTO updateJuego(int id, JuegoDTO juego) {
-		return repo.updateJuego(id,juego);
-		
+		return repo.updateJuego(id, juego);
+
 	}
 
 	@Override
 	public JuegoDTO obtenerJuegoPorId(int id) {
 		return repo.obtenerJuegoPorId(id);
 	}
-	
-	
+
+	@Override
+	public List<JuegoDTO> getNintendo() {
+		// TODO Auto-generated method stub
+		return repo.getNintendo();
+	}
+
 }

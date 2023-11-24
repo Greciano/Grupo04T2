@@ -17,4 +17,6 @@ public interface JuegoService {
 	
 	public JuegoDTO obtenerJuegoPorId(int id);
 	
+	public List<JuegoDTO> getNintendo();
+	
 }

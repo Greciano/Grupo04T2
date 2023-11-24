@@ -65,7 +65,7 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 		try {
 			return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(JuegoDTO.class), id);
 		} catch (EmptyResultDataAccessException e) {
-			return null; 
+			return null;
 		}
 	}
 
@@ -90,6 +90,13 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 		}
 
 		return null;
+	}
+
+	@Override
+	public List<JuegoDTO> getNintendo() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM juegos WHERE editor = 'Nintendo'";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(JuegoDTO.class));
 	}
 
 	public JuegoRepositoryImpl() {
