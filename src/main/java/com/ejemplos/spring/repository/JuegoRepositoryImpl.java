@@ -195,6 +195,13 @@ public class JuegoRepositoryImpl implements JuegoRepository {
 	    System.out.println(sb.toString());
 	}
 
-	
+	@Override
+	public int updateJuego(int id, JuegoDTO juego) {
+		String sql = "UPDATE juegos SET nombre=?, fecha=?, editor=?, plataforma=?, genero=?, eu_sales=? WHERE id=?";
+		return jdbcTemplate.update(sql,new Object[] {juego.getNombre(), juego.getFecha(), 
+				juego.getEditor(), juego.getPlataforma(), juego.getGenero(), 
+				juego.getEuSales(), id});
+		
+	}
 
 }

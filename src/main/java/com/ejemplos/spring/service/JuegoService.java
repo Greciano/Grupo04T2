@@ -14,4 +14,6 @@ public interface JuegoService {
 	public JuegoDTO deleteJuego(int id);
 	
 	public List<JuegoDTO> getNintendo();
+	
+	public void updateJuego(int id, JuegoDTO juego);
 }

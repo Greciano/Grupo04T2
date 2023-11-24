@@ -37,5 +37,8 @@ public class JuegoServiceImpl implements JuegoService {
 		return repo.getNintendo();
 	}
 
-
+	@Override
+	public void updateJuego(int id, JuegoDTO juego) {
+		repo.updateJuego(id,juego);
+	}
 }
